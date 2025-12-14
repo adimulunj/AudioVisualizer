@@ -1,0 +1,5 @@
+- take if in darkmode or light mode do something with that
+
+- bar graph potentially
+
+- isolate frequencies

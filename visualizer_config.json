@@ -1,0 +1,177 @@
+{
+    "config-to-use": "basic",
+    "configs": {
+        "basic": {
+            "window": {
+                "width": 600,
+                "height": 80,
+                "x": "auto",
+                "y": "1710"
+            },
+            "colors": {
+                "background": "#000000",
+                "line": "#00ff88",
+                "glow": "#2bfbe5",
+                "status_text": "#00ff88"
+            },
+            "line": {
+                "width": 4,
+                "alpha": 1,
+                "style": "solid"
+            },
+            "glow": {
+                "width": 10,
+                "alpha": 0.4
+            },
+            "gradient": {
+                "enabled": true,
+                "low_color": "#0000ff",
+                "mid_color": "#00ff00",
+                "high_color": "#ff0000"
+            },
+            "effects": {
+                "fill_under_curve": true,
+                "fill_alpha": 0.3,
+                "mirror_mode": false,
+                "symmetry_mode": false,
+                "thick_on_bass": true
+            },
+            "audio": {
+                "smoothing": 8,
+                "amplitude_scale": 0.8,
+                "amplitude_boost": 0.0,
+                "rotation_angle": 0,
+                "y_offset": 0
+            }
+        },
+        "synthwave": {
+            "window": {
+                "width": 700,
+                "height": 80,
+                "x": "auto",
+                "y": "auto"
+            },
+            "colors": {
+                "background": "#000000",
+                "line": "#ff00ff",
+                "glow": "#ff00ff",
+                "status_text": "#ff00ff"
+            },
+            "line": {
+                "width": 3,
+                "alpha": 1,
+                "style": "solid"
+            },
+            "glow": {
+                "width": 30,
+                "alpha": 0.5
+            },
+            "gradient": {
+                "enabled": true,
+                "low_color": "#ff00ff",
+                "mid_color": "#00ffff",
+                "high_color": "#ffff00"
+            },
+            "effects": {
+                "fill_under_curve": false,
+                "fill_alpha": 0.3,
+                "mirror_mode": true,
+                "symmetry_mode": true,
+                "thick_on_bass": false
+            },
+            "audio": {
+                "smoothing": 12,
+                "amplitude_scale": 0.9,
+                "amplitude_boost": 0.0,
+                "rotation_angle": 0,
+                "y_offset": 0
+            }
+        },
+         "matrix": {
+            "window": {
+                "width": 600,
+                "height": 70,
+                "x": "auto",
+                "y": "auto"
+            },
+            "colors": {
+                "background": "#000000",
+                "line": "#00ff00",
+                "glow": "#00ff00",
+                "status_text": "#00ff00"
+            },
+            "line": {
+                "width": 2,
+                "alpha": 1,
+                "style": "solid"
+            },
+            "glow": {
+                "width": 15,
+                "alpha": 0.3
+            },
+            "gradient": {
+                "enabled": false,
+                "low_color": "#003300",
+                "mid_color": "#00ff00",
+                "high_color": "#00ff00"
+            },
+            "effects": {
+                "fill_under_curve": true,
+                "fill_alpha": 0.2,
+                "mirror_mode": false,
+                "symmetry_mode": false,
+                "thick_on_bass": false
+            },
+            "audio": {
+                "smoothing": 6,
+                "amplitude_scale": 1.0,
+                "amplitude_boost": 0.0,
+                "rotation_angle": 0,
+                "y_offset": 0
+            }
+        },
+         "minimal": {
+            "window": {
+                "width": 400,
+                "height": 60,
+                "x": "auto",
+                "y": "auto"
+            },
+            "colors": {
+                "background": "#000000",
+                "line": "#ffffff",
+                "glow": "#ffffff",
+                "status_text": "#888888"
+            },
+            "line": {
+                "width": 2,
+                "alpha": 1,
+                "style": "solid"
+            },
+            "glow": {
+                "width": 5,
+                "alpha": 0.2
+            },
+            "gradient": {
+                "enabled": false,
+                "low_color": "#0000ff",
+                "mid_color": "#00ff00",
+                "high_color": "#ff0000"
+            },
+            "effects": {
+                "fill_under_curve": false,
+                "fill_alpha": 0.3,
+                "mirror_mode": false,
+                "symmetry_mode": false,
+                "thick_on_bass": false
+            },
+            "audio": {
+                "smoothing": 16,
+                "amplitude_scale": 0.6,
+                "amplitude_boost": 0.0,
+                "rotation_angle": 0,
+                "y_offset": 0
+            }
+        }
+    }
+}

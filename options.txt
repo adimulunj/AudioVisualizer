@@ -1,0 +1,373 @@
+================================================================================
+                    TASKBAR AUDIO VISUALIZER
+                    CONFIGURATION MANUAL
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+1. Getting Started
+2. Configuration File Structure
+3. Window Settings
+4. Color Settings
+5. Line Settings
+6. Glow Settings
+7. Gradient Settings
+8. Effects Settings
+9. Audio Processing Settings
+10. Example Configurations
+11. Tips & Tricks
+
+================================================================================
+1. GETTING STARTED
+================================================================================
+
+The visualizer uses a JSON configuration file named "visualizer_config.json"
+which is automatically created in the same directory as the script.
+
+The config file has multiple named configurations, and you can switch between
+them by changing the "config-to-use" field. Changes are automatically detected
+every 2 seconds while the visualizer is running.
+
+Basic Structure:
+{
+    "config-to-use": "basic-config",
+    "configs": {
+        "basic-config": { ... },
+        "my-custom-config": { ... }
+    }
+}
+
+Data Flow:
+Config → ConfigManager → Components
+Audio → AudioCapture → AudioProcessor → Visualizer
+
+================================================================================
+2. CONFIGURATION FILE STRUCTURE
+================================================================================
+
+Each configuration has 7 main sections:
+- window: Controls window size and position
+- colors: Defines all colors used
+- line: Main waveform line properties
+- glow: Glow effect properties
+- gradient: Gradient color mapping
+- effects: Visual effects toggles
+- audio: Audio processing parameters
+
+================================================================================
+3. WINDOW SETTINGS
+================================================================================
+
+Section: "window"
+
+width (integer)
+  Description: Window width in pixels
+  Default: 600
+  Range: 100 - 3840 (your screen width)
+  Example: "width": 800
+
+height (integer)
+  Description: Window height in pixels
+  Default: 80
+  Range: 20 - 500
+  Example: "height": 100
+
+x (string or integer)
+  Description: Horizontal position on screen
+  Default: "auto" (centered)
+  Values: "auto" or pixel position as integer or "+X" string
+  Example: "x": "auto"
+  Example: "x": "1000"
+  Example: "x": "+500"
+
+y (string or integer)
+  Description: Vertical position on screen
+  Default: "1710" (near taskbar)
+  Values: "auto" or pixel position as integer or "+Y" string
+  Example: "y": "auto"
+  Example: "y": "1800"
+  Example: "y": "+50"
+
+================================================================================
+4. COLOR SETTINGS
+================================================================================
+
+Section: "colors"
+
+All colors use hexadecimal format: "#RRGGBB"
+
+background (string)
+  Description: Background color of the window
+  Default: "#000000" (black)
+  Example: "#000000" (black)
+  Example: "#1a1a1a" (dark gray)
+  Example: "#0a0a20" (dark blue-ish)
+
+line (string)
+  Description: Main waveform line color (when gradient disabled)
+  Default: "#00ff88" (cyan-green)
+  Example: "#00ff88" (cyan)
+  Example: "#ff0000" (red)
+  Example: "#ffffff" (white)
+
+glow (string)
+  Description: Color of the glow effect behind the line
+  Default: "#2bfbe5" (bright cyan)
+  Example: "#2bfbe5" (cyan)
+  Example: "#ff00ff" (magenta)
+  Example: "#ffff00" (yellow)
+
+status_text (string)
+  Description: Color of the "Waiting..." status text
+  Default: "#00ff88" (cyan-green)
+  Example: "#00ff88" (cyan)
+  Example: "#888888" (gray)
+
+================================================================================
+5. LINE SETTINGS
+================================================================================
+
+Section: "line"
+
+width (float)
+  Description: Thickness of the main waveform line
+  Default: 4
+  Range: 0.5 - 20
+  Example: "width": 4
+  Example: "width": 2.5
+  Example: "width": 8
+
+alpha (float)
+  Description: Transparency of the line (0 = invisible, 1 = solid)
+  Default: 1
+  Range: 0.0 - 1.0
+  Example: "alpha": 1
+  Example: "alpha": 0.8
+  Example: "alpha": 0.5
+
+style (string)
+  Description: Line drawing style
+  Default: "solid"
+  Options: "solid", "dashed", "dotted", "dashdot"
+  Example: "style": "solid"
+  Example: "style": "dashed"
+
+================================================================================
+6. GLOW SETTINGS
+================================================================================
+
+Section: "glow"
+
+width (float)
+  Description: Thickness of the glow effect
+  Default: 10
+  Range: 0 - 50
+  Example: "width": 10
+  Example: "width": 20
+  Note: Set to 0 to disable glow effect
+
+alpha (float)
+  Description: Transparency of the glow (0 = invisible, 1 = solid)
+  Default: 0.4
+  Range: 0.0 - 1.0
+  Example: "alpha": 0.4
+  Example: "alpha": 0.6
+  Example: "alpha": 0.2
+
+================================================================================
+7. GRADIENT SETTINGS
+================================================================================
+
+Section: "gradient"
+
+enabled (boolean)
+  Description: Enable/disable gradient coloring based on amplitude
+  Default: true
+  Values: true or false
+  Example: "enabled": true
+  Note: When false, uses solid "line" color from colors section
+
+low_color (string)
+  Description: Color for low amplitude sounds
+  Default: "#0000ff" (blue)
+  Example: "#0000ff" (blue)
+  Example: "#000033" (dark blue)
+
+mid_color (string)
+  Description: Color for medium amplitude sounds
+  Default: "#00ff00" (green)
+  Example: "#00ff00" (green)
+  Example: "#ffff00" (yellow)
+
+high_color (string)
+  Description: Color for high amplitude sounds
+  Default: "#ff0000" (red)
+  Example: "#ff0000" (red)
+  Example: "#ff00ff" (magenta)
+
+Note: Gradient interpolates smoothly between these three colors based on
+      audio amplitude. Low → Mid at 50% amplitude, Mid → High above 50%.
+
+================================================================================
+8. EFFECTS SETTINGS
+================================================================================
+
+Section: "effects"
+
+fill_under_curve (boolean)
+  Description: Fill the area under the waveform
+  Default: false
+  Values: true or false
+  Example: "fill_under_curve": true
+  Note: Creates a filled area between waveform and center line
+
+fill_alpha (float)
+  Description: Transparency of the fill (when enabled)
+  Default: 0.3
+  Range: 0.0 - 1.0
+  Example: "fill_alpha": 0.3
+  Example: "fill_alpha": 0.5
+
+mirror_mode (boolean)
+  Description: Make waveform always positive (absolute values)
+  Default: false
+  Values: true or false
+  Example: "mirror_mode": true
+  Note: Creates symmetric effect by removing negative values
+
+symmetry_mode (boolean)
+  Description: Mirror first half of waveform to second half
+  Default: false
+  Values: true or false
+  Example: "symmetry_mode": true
+  Note: Creates perfectly symmetric waveform
+
+thick_on_bass (boolean)
+  Description: Line thickness increases with bass/amplitude
+  Default: false
+  Values: true or false
+  Example: "thick_on_bass": true
+  Note: Makes line dynamically thicker during louder sections
+
+================================================================================
+9. AUDIO PROCESSING SETTINGS
+================================================================================
+
+Section: "audio"
+
+smoothing (integer)
+  Description: Audio smoothing window size (reduces jitter)
+  Default: 8
+  Range: 0 - 50
+  Example: "smoothing": 8
+  Example: "smoothing": 16
+  Note: Higher values = smoother but less responsive
+        Set to 0 or 1 to disable
+
+amplitude_scale (float)
+  Description: Multiplier for audio amplitude (volume)
+  Default: 0.8
+  Range: 0.1 - 5.0
+  Example: "amplitude_scale": 0.8
+  Example: "amplitude_scale": 1.5
+  Example: "amplitude_scale": 2.0
+  Note: Values > 1 amplify the waveform
+        Values < 1 reduce the waveform
+
+amplitude_boost (float)
+  Description: Fixed value added to audio (vertical shift)
+  Default: 0.0
+  Range: -1.0 - 1.0
+  Example: "amplitude_boost": 0.0
+  Example: "amplitude_boost": 0.1
+  Note: Shifts entire waveform up (positive) or down (negative)
+
+rotation_angle (integer)
+  Description: Rotate/shift waveform horizontally
+  Default: 0
+  Range: -2048 - 2048 (chunk size)
+  Example: "rotation_angle": 0
+  Example: "rotation_angle": 512
+  Example: "rotation_angle": -256
+  Note: Creates phase shift effect
+
+y_offset (float)
+  Description: Vertical offset of entire waveform
+  Default: 0.0
+  Range: -0.5 - 0.5
+  Example: "y_offset": 0.0
+  Example: "y_offset": 0.1
+  Example: "y_offset": -0.1
+  Note: Similar to amplitude_boost but applied after scaling
+
+
+================================================================================
+10. TIPS & TRICKS
+================================================================================
+
+POSITIONING
+-----------
+• Use "auto" for x/y to let the visualizer calculate positions
+• For precise placement, use screen coordinates (0,0 is top-left)
+• Windows taskbar is typically at y=1080 for 1920x1080 screens
+
+PERFORMANCE
+-----------
+• Lower smoothing values (0-4) = more CPU usage but more responsive
+• Higher smoothing values (12-20) = less CPU usage but smoother animation
+• Disable glow by setting glow width to 0 or alpha to 0
+
+VISUAL STYLES
+-------------
+• For clean look: disable gradient, use simple colors, low line width
+• For dramatic look: enable gradient, high glow alpha, thick_on_bass
+• For retro look: enable symmetry_mode and mirror_mode together
+• For filled style: enable fill_under_curve with 0.4-0.6 alpha
+
+COLOR CHOICES
+-------------
+• Use dark backgrounds (#000000, #0a0a0a) for best contrast
+• Complementary colors work well: cyan/red, purple/yellow, blue/orange
+• For gradient: start with cool colors (blue), end with warm (red)
+
+AUDIO TUNING
+------------
+• If waveform too small: increase amplitude_scale (try 1.5 or 2.0)
+• If waveform too jittery: increase smoothing (try 12 or 16)
+• If waveform clipping: decrease amplitude_scale (try 0.5 or 0.6)
+• For subtle movement: use low amplitude_scale (0.3-0.5)
+
+TROUBLESHOOTING
+---------------
+• No audio showing: Check if correct loopback device is detected
+• Config not updating: Wait 2 seconds, or restart the visualizer
+• Window position wrong: Try "auto" or manually adjust x/y values
+• JSON errors: Validate your JSON syntax (commas, brackets, quotes)
+
+HOT-SWAPPING CONFIGS
+--------------------
+1. Edit visualizer_config.json while visualizer is running
+2. Change "config-to-use" to a different config name
+3. Wait 2 seconds for automatic reload
+4. No need to restart the application!
+
+CREATING MULTIPLE CONFIGS
+--------------------------
+Add new configurations under the "configs" section:
+{
+    "config-to-use": "my-config",
+    "configs": {
+        "basic-config": { ... },
+        "my-config": { ... },
+        "another-config": { ... }
+    }
+}
+
+Then switch between them by changing "config-to-use".
+
+================================================================================
+END OF MANUAL
+================================================================================
+
+For issues or questions, press ESC to close and restart the visualizer.
+The visualizer automatically creates a default config file on first run.
