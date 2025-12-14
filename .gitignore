@@ -1,1 +1,9 @@
 .vscode/
+# Ignore all Python cache directories anywhere
+__pycache__/
+
+# Ignore compiled Python files
+*.py[cod]
+
+# Ignore setuptools / packaging metadata anywhere
+*.egg-info/
